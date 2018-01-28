@@ -6,7 +6,7 @@ echo -e "\033[1;33mOpciones de usuario:\033[1;30m
 3) Desconectar todos los usuarios\033[0m"
 read -p ": " option
  if [ $option -eq 1 ]; then
- read -p "Cual es el nombre del usuario?: " name
+ read -p "Escriba el nombre de usuario: " name
  if [ $(cat /etc/passwd |grep "^$name:" |wc -l) -eq 0 ]; then
  echo "El usuario no existe"
  exit
@@ -17,7 +17,7 @@ read -p ": " option
  fi
 
  if [ $option -eq 2 ]; then
- read -p "Cual es el nombre del usuario?: " name
+ read -p "Escriba el nombre de usuario: " name
  if [ $(cat /etc/passwd |grep "^$name:" |wc -l) -eq 0 ]; then
  echo "El usuario no existe"
  exit
@@ -30,7 +30,7 @@ read -p ": " option
  fi
 
  if [ $option -eq 3 ]; then
- read -p "Cual es el nombre del usuario?: " name
+ read -p "Escriba el nombre de usuario: " name
  if [ $(cat /etc/passwd |grep "^$name:" |wc -l) -eq 0 ]; then
  echo "El usuario no existe"
  exit
