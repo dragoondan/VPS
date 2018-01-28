@@ -1,0 +1,37 @@
+#!/bin/bash
+cd
+if [ $(id -u) != 0 ]
+then
+echo "Ejecute este script como usuario root"
+exit
+fi
+echo -e "\033[1;30mInstalando...\033[0m"
+mkdir /etc/VpsPackdir 2>/dev/null
+mkdir /etc/VpsPackdir/limite 2>/dev/null
+mkdir /etc/VpsPackdir/senha 2>/dev/null
+rm -rf /bin/limite 2>/dev/null
+wget -o /dev/null -O- https://raw.githubusercontent.com/RicKbrL/VpsPack/master/limite > /bin/limite
+chmod +x /bin/limite
+rm -rf /bin/crearusuario 2>/dev/null
+wget -o /dev/null -O- https://raw.githubusercontent.com/RicKbrL/VpsPack/master/crearusuario > /bin/crearusuario
+chmod +x /bin/crearusuario
+rm -rf /bin/eliminarusuario 2>/dev/null
+wget -o /dev/null -O- https://raw.githubusercontent.com/RicKbrL/VpsPack/master/eliminarusuario > /bin/eliminarusuario
+chmod +x /bin/eliminarusuario
+rm -rf /bin/modificarusuario 2>/dev/null
+wget -o /dev/null -O- https://raw.githubusercontent.com/RicKbrL/VpsPack/master/modificarusuario > /bin/modificarusuario
+chmod +x /bin/modificarusuario
+rm -rf /bin/opciones 2>/dev/null
+wget -o /dev/null -O- https://raw.githubusercontent.com/RicKbrL/VpsPack/master/opciones > /bin/opciones
+chmod +x /bin/opciones
+rm -rf /bin/speedtest.py 2>/dev/null
+wget -o /dev/null -O- https://raw.githubusercontent.com/RicKbrL/VpsPack/master/speedtest.py > /bin/speedtest.py
+chmod +x /bin/speedtest.py
+clear
+echo -e "\033[1;32mInstalacion finalizada\n\033[1;30mEjecute:"
+echo -e "\n\033[1;32mopciones \033[1;30mMenu con opciones"
+echo -e "\033[1;32mcrearusuario \033[1;30mCrear nuevo usuario"
+echo -e "\033[1;32meliminarusuario \033[1;30mEliminar usuario o desconectarlo"
+echo -e "\033[1;32mmodificarusuario \033[1;30mCambiar datos de un usuario"
+echo -e "\033[1;32mlimite \033[1;30mLimite de logins simultaneos\033[0m"
+rm -rf install
