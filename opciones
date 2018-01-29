@@ -34,8 +34,12 @@ sistema=$(cat /etc/lsb-release |grep "DISTRIB_DESCRIPTION" | awk -F = '{print $2
 else
 sistema=Null
 fi
-echo -e "\033[1;31mEscriba la IP del servidor\033[0m"
-read -p ": " ip
+#echo -e "\033[1;31mEscriba la IP del servidor\033[0m"
+#read -p ": " ip
+ip=$(ip addr | grep 'state UP' -A2 | tail -n1 | awk '{print $2}' | cut -f1  -d'/')
+echo -e "\033[1;31mLa IP del servidor es...\033[0m $ip
+Presiona una tecla para continuar..."
+read foo
 clear
 echo -e "\033[1;31m-----> \033[01;37mScript hecho por (DragoonDan)\033[0m"
 echo -e "\033[1;31m-----> \033[01;37mSu sistema operativo:\033[1;31m $sistema"
@@ -46,7 +50,7 @@ echo -e "\033[1;31m-----> \033[1;37mSSH se ejecutara en las IPs: \033[1;31m$ip, 
 echo -e "\033[1;31m-----> \033[1;37mHerramienta para agregar host:\033[1;31m addhost\033[0m"
 
 function sshd_config(){ 
-echo 'Port 443
+echo 'Port 22
 PermitRootLogin yes
 PasswordAuthentication yes
 Compression yes
@@ -92,7 +96,7 @@ chattr -i /etc/ssh/sshd_config > /dev/null 2> /dev/null
 sshd_config
 service ssh restart 1> /dev/null 2> /dev/null
 
-echo 'auth_param basic program /usr/lib/squid/basic_ncsa_auth /etc/squid/claves
+echo -e 'auth_param basic program /usr/lib/squid/basic_ncsa_auth /etc/squid/claves
 http_port 8080
 visible_hostname DanielVPS
 dns_nameservers 208.67.222.222 208.67.220.220
@@ -135,30 +139,34 @@ echo -e "\033[1;37mPara agregar nuevos host a SQUID proxy server ejecute el coma
 \033[1;37mPara eliminar ejecute el comando \033[1;32mremoverhost\033[1;37m
 Los host estan almacenados en el achivo /etc/payloads\033[0m"
 echo -e "\033[01;31mConfiguracion automatica terminada! \033[0m"
-echo -e 'Recuerda hacer lo siguiente:\n\n
-nano /etc/sarg/sarg.conf\n
-htpasswd -c /var/lib/sarg/.htpasswd admin\n\n
-nano /etc/apache2/apache2.conf\n
-#Acceso a SARG\n
-<Directory /var/www/html/reportessarg>\n
-Options -Indexes +FollowSymLinks +Includes\n
-AllowOverride AuthConfig\n
-#Autenticacion de usuario\n
-AuthName "Reporte de Accesos a internet de la Red"\n
-AuthType Basic\n
-AuthUserFile /var/lib/sarg/.htpasswd\n
-require valid-user\n
-Order allow,deny\n
-Allow from all\n
-</Directory>\n\n
-service apache2 restart\n\n
+echo -e 'Recuerde hacer lo siguiente:
+nano /etc/sarg/sarg.conf
+htpasswd -c /var/lib/sarg/.htpasswd admin
+
+nano /etc/apache2/apache2.conf
+#Acceso a SARG
+<Directory /var/www/html/reportessarg>
+Options -Indexes +FollowSymLinks +Includes
+AllowOverride AuthConfig
+#Autenticacion de usuario
+AuthName "Reporte de Accesos a internet de la Red"
+AuthType Basic
+AuthUserFile /var/lib/sarg/.htpasswd
+require valid-user
+Order allow,deny
+Allow from all
+</Directory>
+
+service apache2 restart
 sarg -x
-crontab -e\n
-0 0,2,4,6,8,10,12,14,16,18,20,22 * * * /usr/bin/sarg -x\n\n
-htpasswd /etc/squid3/claves usuario\n\n
-nano /etc/squid3/squid.conf\n
-acl usuarioacl proxy_auth usuario\n
-http_access allow usarioacl\n\n
+crontab -e
+0 0,2,4,6,8,10,12,14,16,18,20,22 * * * /usr/bin/sarg -x
+htpasswd /etc/squid3/claves usuario
+
+nano /etc/squid3/squid.conf
+acl usuarioacl proxy_auth usuario
+http_access allow usarioacl
+
 squid3 -k reconfigure'
 exit 0
 fi
@@ -173,7 +181,7 @@ chattr -i /etc/ssh/sshd_config > /dev/null 2> /dev/null
 sshd_config
 service ssh restart 1> /dev/null 2> /dev/null
 
-echo 'auth_param basic program /usr/lib/squid3/basic_ncsa_auth /etc/squid3/claves
+echo -e 'auth_param basic program /usr/lib/squid3/basic_ncsa_auth /etc/squid3/claves
 http_port 8080
 visible_hostname DanielVPS
 dns_nameservers 208.67.222.222 208.67.220.220
@@ -196,7 +204,7 @@ follow_x_forwarded_for deny all
 request_header_access From deny all
 request_header_access Referer deny all
 request_header_access User-Agent deny all
-request_header_access X-Forwarded-For deny all' >> /etc/squid3/squid.conf
+request_header_access X-Forwarded-For deny all' > /etc/squid3/squid.conf
 payloads
 addihost
 removerhostf
@@ -216,30 +224,34 @@ echo -e "\033[1;37mPara agregar nuevos host a SQUID proxy server ejecute el coma
 \033[1;37mPara eliminar ejecute el comando \033[1;32mremoverhost\033[1;37m
 Los host estan almacenados en el achivo /etc/payloads\033[0m"
 echo -e "\033[01;31mConfiguracion automatica terminada! \033[0m"
-echo -e 'Recuerda hacer lo siguiente:\n\n
-nano /etc/sarg/sarg.conf\n
-htpasswd -c /var/lib/sarg/.htpasswd admin\n\n
-nano /etc/apache2/apache2.conf\n
-#Acceso a SARG\n
-<Directory /var/www/html/reportessarg>\n
-Options -Indexes +FollowSymLinks +Includes\n
-AllowOverride AuthConfig\n
-#Autenticacion de usuario\n
-AuthName "Reporte de Accesos a internet de la Red"\n
-AuthType Basic\n
-AuthUserFile /var/lib/sarg/.htpasswd\n
-require valid-user\n
-Order allow,deny\n
-Allow from all\n
-</Directory>\n\n
-service apache2 restart\n\n
+echo -e 'Recuerde hacer lo siguiente:
+nano /etc/sarg/sarg.conf
+htpasswd -c /var/lib/sarg/.htpasswd admin
+
+nano /etc/apache2/apache2.conf
+#Acceso a SARG
+<Directory /var/www/html/reportessarg>
+Options -Indexes +FollowSymLinks +Includes
+AllowOverride AuthConfig
+#Autenticacion de usuario
+AuthName "Reporte de Accesos a internet de la Red"
+AuthType Basic
+AuthUserFile /var/lib/sarg/.htpasswd
+require valid-user
+Order allow,deny
+Allow from all
+</Directory>
+
+service apache2 restart
 sarg -x
-crontab -e\n
-0 0,2,4,6,8,10,12,14,16,18,20,22 * * * /usr/bin/sarg -x\n\n
-htpasswd /etc/squid3/claves usuario\n\n
-nano /etc/squid3/squid.conf\n
-acl usuarioacl proxy_auth usuario\n
-http_access allow usarioacl\n\n
+crontab -e
+0 0,2,4,6,8,10,12,14,16,18,20,22 * * * /usr/bin/sarg -x
+htpasswd /etc/squid3/claves usuario
+
+nano /etc/squid3/squid.conf
+acl usuarioacl proxy_auth usuario
+http_access allow usarioacl
+
 squid3 -k reconfigure'
 exit 0
 fi
@@ -254,7 +266,7 @@ chattr -i /etc/ssh/sshd_config > /dev/null 2> /dev/null
 sshd_config
 service sshd restart 1> /dev/null 2> /dev/null
 
-echo 'auth_param basic program /usr/lib/squid/basic_ncsa_auth /etc/squid/claves
+echo -e 'auth_param basic program /usr/lib/squid/basic_ncsa_auth /etc/squid/claves
 http_port 8080
 visible_hostname DanielVPS
 dns_nameservers 208.67.222.222 208.67.220.220
@@ -277,7 +289,7 @@ follow_x_forwarded_for deny all
 request_header_access From deny all
 request_header_access Referer deny all
 request_header_access User-Agent deny all
-request_header_access X-Forwarded-For deny all' >> /etc/squid/squid.conf
+request_header_access X-Forwarded-For deny all' > /etc/squid/squid.conf
 payloads
 addihost
 removerhostf
@@ -297,30 +309,34 @@ echo -e "\033[1;37mPara agregar nuevos host a SQUID proxy server ejecute el coma
 \033[1;37mPara eliminar ejecute el comando \033[1;32mremoverhost\033[1;37m
 Los host estan almacenados en el achivo /etc/payloads\033[0m"
 echo -e "\033[01;31mConfiguracion automatica terminada! \033[0m"
-echo -e 'Recuerda hacer lo siguiente:\n\n
-nano /etc/sarg/sarg.conf\n
-htpasswd -c /var/lib/sarg/.htpasswd admin\n\n
-nano /etc/apache2/apache2.conf\n
-#Acceso a SARG\n
-<Directory /var/www/html/reportessarg>\n
-Options -Indexes +FollowSymLinks +Includes\n
-AllowOverride AuthConfig\n
-#Autenticacion de usuario\n
-AuthName "Reporte de Accesos a internet de la Red"\n
-AuthType Basic\n
-AuthUserFile /var/lib/sarg/.htpasswd\n
-require valid-user\n
-Order allow,deny\n
-Allow from all\n
-</Directory>\n\n
-service apache2 restart\n\n
+echo -e 'Recuerde hacer lo siguiente:
+nano /etc/sarg/sarg.conf
+htpasswd -c /var/lib/sarg/.htpasswd admin
+
+nano /etc/apache2/apache2.conf
+#Acceso a SARG
+<Directory /var/www/html/reportessarg>
+Options -Indexes +FollowSymLinks +Includes
+AllowOverride AuthConfig
+#Autenticacion de usuario
+AuthName "Reporte de Accesos a internet de la Red"
+AuthType Basic
+AuthUserFile /var/lib/sarg/.htpasswd
+require valid-user
+Order allow,deny
+Allow from all
+</Directory>
+
+service apache2 restart
 sarg -x
-crontab -e\n
-0 0,2,4,6,8,10,12,14,16,18,20,22 * * * /usr/bin/sarg -x\n\n
-htpasswd /etc/squid3/claves usuario\n\n
-nano /etc/squid3/squid.conf\n
-acl usuarioacl proxy_auth usuario\n
-http_access allow usarioacl\n\n
+crontab -e
+0 0,2,4,6,8,10,12,14,16,18,20,22 * * * /usr/bin/sarg -x
+htpasswd /etc/squid3/claves usuario
+
+nano /etc/squid3/squid.conf
+acl usuarioacl proxy_auth usuario
+http_access allow usarioacl
+
 squid3 -k reconfigure'
 exit
 fi
@@ -335,7 +351,7 @@ sshd_config
 
 service ssh restart 1> /dev/null 2> /dev/null
 
-echo 'auth_param basic program /usr/lib/squid3/basic_ncsa_auth /etc/squid3/claves
+echo -e 'auth_param basic program /usr/lib/squid3/basic_ncsa_auth /etc/squid3/claves
 http_port 8080
 visible_hostname DanielVPS
 dns_nameservers 208.67.222.222 208.67.220.220
@@ -358,7 +374,7 @@ follow_x_forwarded_for deny all
 request_header_access From deny all
 request_header_access Referer deny all
 request_header_access User-Agent deny all
-request_header_access X-Forwarded-For deny all' >> /etc/squid3/squid.conf
+request_header_access X-Forwarded-For deny all' > /etc/squid3/squid.conf
 payloads
 addihost
 removerhostf
@@ -378,30 +394,34 @@ echo -e "\033[1;37mPara agregar nuevos host a SQUID proxy server ejecute el coma
 \033[1;37mPara eliminar ejecute el comando \033[1;32mremoverhost\033[1;37m
 Los host estan almacenados en el achivo /etc/payloads\033[0m"
 echo -e "\033[01;31mConfiguracion automatica terminada! \033[0m"
-echo -e 'Recuerda hacer lo siguiente:\n\n
-nano /etc/sarg/sarg.conf\n
-htpasswd -c /var/lib/sarg/.htpasswd admin\n\n
-nano /etc/apache2/apache2.conf\n
-#Acceso a SARG\n
-<Directory /var/www/html/reportessarg>\n
-Options -Indexes +FollowSymLinks +Includes\n
-AllowOverride AuthConfig\n
-#Autenticacion de usuario\n
-AuthName "Reporte de Accesos a internet de la Red"\n
-AuthType Basic\n
-AuthUserFile /var/lib/sarg/.htpasswd\n
-require valid-user\n
-Order allow,deny\n
-Allow from all\n
-</Directory>\n\n
-service apache2 restart\n\n
+echo -e 'Recuerde hacer lo siguiente:
+nano /etc/sarg/sarg.conf
+htpasswd -c /var/lib/sarg/.htpasswd admin
+
+nano /etc/apache2/apache2.conf
+#Acceso a SARG
+<Directory /var/www/html/reportessarg>
+Options -Indexes +FollowSymLinks +Includes
+AllowOverride AuthConfig
+#Autenticacion de usuario
+AuthName "Reporte de Accesos a internet de la Red"
+AuthType Basic
+AuthUserFile /var/lib/sarg/.htpasswd
+require valid-user
+Order allow,deny
+Allow from all
+</Directory>
+
+service apache2 restart
 sarg -x
-crontab -e\n
-0 0,2,4,6,8,10,12,14,16,18,20,22 * * * /usr/bin/sarg -x\n\n
-htpasswd /etc/squid3/claves usuario\n\n
-nano /etc/squid3/squid.conf\n
-acl usuarioacl proxy_auth usuario\n
-http_access allow usarioacl\n\n
+crontab -e
+0 0,2,4,6,8,10,12,14,16,18,20,22 * * * /usr/bin/sarg -x
+htpasswd /etc/squid3/claves usuario
+
+nano /etc/squid3/squid.conf
+acl usuarioacl proxy_auth usuario
+http_access allow usarioacl
+
 squid3 -k reconfigure'
 exit 0
 fi
@@ -416,7 +436,7 @@ chattr -i /etc/ssh/sshd_config > /dev/null 2> /dev/null
 sshd_config
 service sshd restart 1> /dev/null 2> /dev/null
 
-echo 'auth_param basic program /usr/lib/squid/basic_ncsa_auth /etc/squid/claves
+echo -e 'auth_param basic program /usr/lib/squid/basic_ncsa_auth /etc/squid/claves
 http_port 8080
 visible_hostname DanielVPS
 dns_nameservers 208.67.222.222 208.67.220.220
@@ -439,7 +459,7 @@ follow_x_forwarded_for deny all
 request_header_access From deny all
 request_header_access Referer deny all
 request_header_access User-Agent deny all
-request_header_access X-Forwarded-For deny all' >> /etc/squid/squid.conf
+request_header_access X-Forwarded-For deny all' > /etc/squid/squid.conf
 payloads
 addihost
 removerhostf
@@ -459,30 +479,34 @@ echo -e "\033[1;37mPara agregar nuevos host a SQUID proxy server ejecute el coma
 \033[1;37mPara eliminar ejecute el comando \033[1;32mremoverhost\033[1;37m
 Los host estan almacenados en el achivo /etc/payloads\033[0m"
 echo -e "\033[01;31mConfiguracion automatica terminada! \033[0m"
-echo -e 'Recuerda hacer lo siguiente:\n\n
-nano /etc/sarg/sarg.conf\n
-htpasswd -c /var/lib/sarg/.htpasswd admin\n\n
-nano /etc/apache2/apache2.conf\n
-#Acceso a SARG\n
-<Directory /var/www/html/reportessarg>\n
-Options -Indexes +FollowSymLinks +Includes\n
-AllowOverride AuthConfig\n
-#Autenticacion de usuario\n
-AuthName "Reporte de Accesos a internet de la Red"\n
-AuthType Basic\n
-AuthUserFile /var/lib/sarg/.htpasswd\n
-require valid-user\n
-Order allow,deny\n
-Allow from all\n
-</Directory>\n\n
-service apache2 restart\n\n
+echo -e 'Recuerde hacer lo siguiente:
+nano /etc/sarg/sarg.conf
+htpasswd -c /var/lib/sarg/.htpasswd admin
+
+nano /etc/apache2/apache2.conf
+#Acceso a SARG
+<Directory /var/www/html/reportessarg>
+Options -Indexes +FollowSymLinks +Includes
+AllowOverride AuthConfig
+#Autenticacion de usuario
+AuthName "Reporte de Accesos a internet de la Red"
+AuthType Basic
+AuthUserFile /var/lib/sarg/.htpasswd
+require valid-user
+Order allow,deny
+Allow from all
+</Directory>
+
+service apache2 restart
 sarg -x
-crontab -e\n
-0 0,2,4,6,8,10,12,14,16,18,20,22 * * * /usr/bin/sarg -x\n\n
-htpasswd /etc/squid3/claves usuario\n\n
-nano /etc/squid3/squid.conf\n
-acl usuarioacl proxy_auth usuario\n
-http_access allow usarioacl\n\n
+crontab -e
+0 0,2,4,6,8,10,12,14,16,18,20,22 * * * /usr/bin/sarg -x
+htpasswd /etc/squid3/claves usuario
+
+nano /etc/squid3/squid.conf
+acl usuarioacl proxy_auth usuario
+http_access allow usarioacl
+
 squid3 -k reconfigure'
 exit
 fi
@@ -543,9 +567,9 @@ echo -e "\n\033[1;30mSistema Operativo\033[0m"
 name=$(cat /etc/lsb-release |grep DESCRIPTION |awk -F = {'print $2'})
 codename=$(cat /etc/lsb-release |grep CODENAME |awk -F = {'print $2'})
 echo -e "\033[1;32mNombre: \033[0m$name"
-echo -e "\033[1;32mNombre en codigo: \033[0m$codename"
+echo -e "\033[1;32mNombre clave: \033[0m$codename"
 echo -e "\033[1;32mKernel: \033[0m$(uname -s)"
-echo -e "\033[1;32mKernel Release: \033[0m$(uname -r)"
+echo -e "\033[1;32mVersion de Kernel: \033[0m$(uname -r)"
 if [ -f /etc/os-release ]
 then
 devlike=$(cat /etc/os-release |grep LIKE |awk -F = {'print $2'})
@@ -751,7 +775,7 @@ function detalhes_usuarios(){
 clear
 
 echo -e "\033[1;30m----------------------------------------------------------------------\033[0m"
-echo -e "\033[1;37m Usuario               Contrasena               Fecha de expiracion          Logins \033[0m"
+echo -e "\033[1;37m Usuario            Contrasena            Fecha de expiracion        Logins \033[0m"
 echo -e "\033[1;30m----------------------------------------------------------------------\033[0m"
 for users in `awk -F : '$3 > 900 { print $1 }' /etc/passwd |sort |grep -v "nobody" |grep -vi polkitd |grep -vi system-`
 do
@@ -825,7 +849,7 @@ banner=$(cat /etc/bannerssh)
 else
 banner="No hay un banner por ahora"
 fi
-echo -e "\033[1;32mBanner atual\n\n\033[1;37m$banner\n\033[0m"
+echo -e "\033[1;32mBanner actual:\n\n\033[1;37m$banner\n\033[0m"
 echo "Escriba el banner que desea agregar (Pulse ctrl + c para salir)"
 read -p ": " bannerssh
 echo "$bannerssh" > /etc/bannerssh
@@ -846,7 +870,7 @@ if [[ $1 == "" ]]
 then
 echo -e "\033[1;37m       VPS Panel v1.0 por DragoonDan \033[0m"
 echo -e "\033[1;37mElija una opcion:    Presione Ctrl + C para salir\033[1;33m
-[\033[1;30m01\033[1;33m] Instalar Squid/SSH server \033[1;30m(Instalacion y configuracion de Squid/openssh server)\033[1;33m
+[\033[1;30m01\033[1;33m] Instalar Squid/SSH server \033[1;30m(Instalacion y configuracion)\033[1;33m
 [\033[1;30m02\033[1;33m] Limite \033[1;30m(Modifica el limite de conexiones simultaneas)\033[1;33m
 [\033[1;30m03\033[1;33m] Crear usuario \033[1;30m(Crea nuevo usuario)\033[1;33m
 [\033[1;30m04\033[1;33m] Eliminar expirados \033[1;30m(Elimina usuarios con configuracion vencida)\033[1;33m
@@ -883,7 +907,7 @@ case $opcao in
    read -p "Limite: " limite
    limite $user $limite;;
   3 | 03 )
-   criarusuario;;
+   crearusuario;;
   4 | 04 )
    removerexpirados;;
   5 | 05 )
@@ -899,9 +923,9 @@ case $opcao in
   10)
    mudarnome;; 
   11)
-   redefinirusuario;;
+   modificarusuario;;
   12)
-   deletarusuario;;
+   eliminarusuario;;
   13)
    firewallblock;;
   14)
@@ -928,9 +952,9 @@ case $opcao in
    deletar_todos;;
   25)
    rm -rf /bin/speedtest.py 2>/dev/null
-   rm -rf /bin/deletarusuario 2>/dev/null
-   rm -rf /bin/redefinirusuario 2>/dev/null
+   rm -rf /bin/eliminarusuario 2>/dev/null
+   rm -rf /bin/modificarusuario 2>/dev/null
    rm -rf /bin/limite 2>/dev/null
-   rm -rf /bin/criarusuario 2>/dev/null
-   rm -rf /bin/vpspack 2>/dev/null;;
+   rm -rf /bin/crearusuario 2>/dev/null
+   rm -rf /bin/opciones 2>/dev/null;;
 esac
