@@ -642,7 +642,7 @@ bash /etc/usuariosteste/$nome.sh &
 exit
 }
 function badvpn_install(){
-wget https://raw.githubusercontent.com/RicKbrL/VpsConf/master/badvpn.sh && bash badvpn.sh
+wget https://raw.githubusercontent.com/dragoondan/VPS/master/badvpn.sh && bash badvpn.sh
 }
 function removerlimite(){
 echo -ne "\033[1;32mEscriba el usuario para quitar el limite: \033[0m"
