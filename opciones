@@ -444,7 +444,7 @@ dns_nameservers 208.67.222.222 208.67.220.220
 acl url1 dstdomain -i 127.0.0.1
 acl url2 dstdomain -i localhost' > /etc/squid/squid.conf
 echo -e "acl url3 dstdomain -i $ip" >> /etc/squid/squid.conf
-acl payload dstdomain -i "/etc/payloads"
+echo -e 'acl payload dstdomain -i "/etc/payloads"
 
 http_access allow url1
 http_access allow url2
