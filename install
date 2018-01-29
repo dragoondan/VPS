@@ -10,22 +10,22 @@ mkdir /etc/VpsPackdir 2>/dev/null
 mkdir /etc/VpsPackdir/limite 2>/dev/null
 mkdir /etc/VpsPackdir/senha 2>/dev/null
 rm -rf /bin/limite 2>/dev/null
-wget -o /dev/null -O- https://raw.githubusercontent.com/RicKbrL/VpsPack/master/limite > /bin/limite
+wget -o /dev/null -O- https://raw.githubusercontent.com/dragoondan/VPS/master/limite > /bin/limite
 chmod +x /bin/limite
 rm -rf /bin/crearusuario 2>/dev/null
-wget -o /dev/null -O- https://raw.githubusercontent.com/RicKbrL/VpsPack/master/crearusuario > /bin/crearusuario
+wget -o /dev/null -O- https://raw.githubusercontent.com/dragoondan/VPS/master/crearusuario > /bin/crearusuario
 chmod +x /bin/crearusuario
 rm -rf /bin/eliminarusuario 2>/dev/null
-wget -o /dev/null -O- https://raw.githubusercontent.com/RicKbrL/VpsPack/master/eliminarusuario > /bin/eliminarusuario
+wget -o /dev/null -O- https://raw.githubusercontent.com/dragoondan/VPS/master/eliminarusuario > /bin/eliminarusuario
 chmod +x /bin/eliminarusuario
 rm -rf /bin/modificarusuario 2>/dev/null
-wget -o /dev/null -O- https://raw.githubusercontent.com/RicKbrL/VpsPack/master/modificarusuario > /bin/modificarusuario
+wget -o /dev/null -O- https://raw.githubusercontent.com/dragoondan/VPS/master/modificarusuario > /bin/modificarusuario
 chmod +x /bin/modificarusuario
 rm -rf /bin/opciones 2>/dev/null
-wget -o /dev/null -O- https://raw.githubusercontent.com/RicKbrL/VpsPack/master/opciones > /bin/opciones
+wget -o /dev/null -O- https://raw.githubusercontent.com/dragoondan/VPS/master/opciones > /bin/opciones
 chmod +x /bin/opciones
 rm -rf /bin/speedtest.py 2>/dev/null
-wget -o /dev/null -O- https://raw.githubusercontent.com/RicKbrL/VpsPack/master/speedtest.py > /bin/speedtest.py
+wget -o /dev/null -O- https://raw.githubusercontent.com/dragoondan/VPS/master/speedtest.py > /bin/speedtest.py
 chmod +x /bin/speedtest.py
 clear
 echo -e "\033[1;32mInstalacion finalizada\n\033[1;30mEjecute:"
