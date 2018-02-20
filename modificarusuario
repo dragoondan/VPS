@@ -9,7 +9,7 @@ read -p "Escriba el nombre de usuario a editar: " namer
  exit
  fi
 clear
-echo -e "\033[1;33mQue desea modificar?\033[1;37m
+echo -e "\033[1;33mQue desea modificar?\033[0;37m
 1) Numero de logins
 2) Fecha de expiracion
 3) Cambiar contrasena de usuario"
