@@ -50,8 +50,7 @@ echo -e "\033[1;31m-----> \033[1;37mSSH se ejecutara en las IPs: \033[1;31m$ip, 
 echo -e "\033[1;31m-----> \033[1;37mHerramienta para agregar host:\033[1;31m addhost\033[0m"
 
 function sshd_config(){ 
-echo 'Port 22
-PermitRootLogin yes
+echo 'PermitRootLogin yes
 PasswordAuthentication yes
 Compression yes
 Banner /etc/bannerssh
@@ -96,7 +95,7 @@ chattr -i /etc/ssh/sshd_config > /dev/null 2> /dev/null
 sshd_config
 service ssh restart 1> /dev/null 2> /dev/null
 
-echo -e 'auth_param basic program /usr/lib/squid/basic_ncsa_auth /etc/squid/claves
+echo -e '#auth_param basic program /usr/lib/squid/basic_ncsa_auth /etc/squid/claves
 http_port 8080
 visible_hostname DanielVPS
 dns_nameservers 208.67.222.222 208.67.220.220
@@ -181,7 +180,7 @@ chattr -i /etc/ssh/sshd_config > /dev/null 2> /dev/null
 sshd_config
 service ssh restart 1> /dev/null 2> /dev/null
 
-echo -e 'auth_param basic program /usr/lib/squid3/basic_ncsa_auth /etc/squid3/claves
+echo -e '#auth_param basic program /usr/lib/squid3/basic_ncsa_auth /etc/squid3/claves
 http_port 8080
 visible_hostname DanielVPS
 dns_nameservers 208.67.222.222 208.67.220.220
@@ -266,7 +265,7 @@ chattr -i /etc/ssh/sshd_config > /dev/null 2> /dev/null
 sshd_config
 service sshd restart 1> /dev/null 2> /dev/null
 
-echo -e 'auth_param basic program /usr/lib/squid/basic_ncsa_auth /etc/squid/claves
+echo -e '#auth_param basic program /usr/lib/squid/basic_ncsa_auth /etc/squid/claves
 http_port 8080
 visible_hostname DanielVPS
 dns_nameservers 208.67.222.222 208.67.220.220
@@ -351,7 +350,7 @@ sshd_config
 
 service ssh restart 1> /dev/null 2> /dev/null
 
-echo -e 'auth_param basic program /usr/lib/squid3/basic_ncsa_auth /etc/squid3/claves
+echo -e '#auth_param basic program /usr/lib/squid3/basic_ncsa_auth /etc/squid3/claves
 http_port 8080
 visible_hostname DanielVPS
 dns_nameservers 208.67.222.222 208.67.220.220
@@ -436,7 +435,7 @@ chattr -i /etc/ssh/sshd_config > /dev/null 2> /dev/null
 sshd_config
 service sshd restart 1> /dev/null 2> /dev/null
 
-echo -e 'auth_param basic program /usr/lib/squid/basic_ncsa_auth /etc/squid/claves
+echo -e '#auth_param basic program /usr/lib/squid/basic_ncsa_auth /etc/squid/claves
 http_port 8080
 visible_hostname DanielVPS
 dns_nameservers 208.67.222.222 208.67.220.220
