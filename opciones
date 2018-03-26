@@ -37,8 +37,9 @@ fi
 #echo -e "\033[1;31mEscriba la IP del servidor\033[0m"
 #read -p ": " ip
 ip=$(ip addr | grep 'state UP' -A2 | tail -n1 | awk '{print $2}' | cut -f1  -d'/')
-echo -e "\033[1;31mLa IP del servidor es...\033[0m $ip"
-read -p "\033[1;31mEscriba el nombre del dueno del servidor:\033[0m " dueno
+echo -e "\033[1;31mLa IP del servidor es...\033[0m $ip
+\033[1;31mEscriba el nombre del dueno del servidor:\033[0m"
+read -p " " dueno
 echo "Presiona una tecla para continuar..."
 read foo
 clear
