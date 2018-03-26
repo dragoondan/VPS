@@ -188,13 +188,13 @@ sshd_config
 service ssh restart 1> /dev/null 2> /dev/null
 
 echo -e '#auth_param basic program /usr/lib/squid/basic_ncsa_auth /etc/squid/claves
-http_port 8080' > /etc/squid/squid.conf
-echo -e "visible_hostname $dueno
+http_port 8080
+visible_hostname DanielVPS
 dns_nameservers 208.67.222.222 208.67.220.220
 
 acl url1 dstdomain -i 127.0.0.1
-acl url2 dstdomain -i localhost
-acl url3 dstdomain -i $ip" >> /etc/squid/squid.conf
+acl url2 dstdomain -i localhost' > /etc/squid/squid.conf
+echo -e "acl url3 dstdomain -i $ip" >> /etc/squid/squid.conf
 echo -e 'acl payload dstdomain -i "/etc/payloads"
 
 http_access allow url1
@@ -226,29 +226,38 @@ echo 'AuthType Basic
 AuthName "Acceso Restringido!"
 AuthUserFile /var/lib/sarg/.htpasswd
 require valid-user' > /var/lib/sarg/.htaccess
-wget https://raw.githubusercontent.com/dragoondan/VPS/master/sarg.conf -O /etc/sarg/sarg.conf
-wget https://raw.githubusercontent.com/dragoondan/VPS/master/apache2.conf -O /etc/apache2/apache2.conf
 echo -e "\033[1;37mPara agregar nuevos host a SQUID proxy server ejecute el comando \033[1;32maddhost
-\033[1;37mPara eliminar host ejecute el comando \033[1;32mremoverhost\033[1;37m
+\033[1;37mPara eliminar ejecute el comando \033[1;32mremoverhost\033[1;37m
 Los host estan almacenados en el achivo /etc/payloads\033[0m"
 echo -e "\033[01;31mConfiguracion automatica terminada! \033[0m"
 echo -e 'Recuerde hacer lo siguiente:
+nano /etc/sarg/sarg.conf
 htpasswd -c /var/lib/sarg/.htpasswd admin
+
+nano /etc/apache2/apache2.conf
+#Acceso a SARG
+<Directory /var/www/html/reportessarg>
+Options -Indexes +FollowSymLinks +Includes
+AllowOverride AuthConfig
+#Autenticacion de usuario
+AuthName "Reporte de Accesos a internet de la Red"
+AuthType Basic
+AuthUserFile /var/lib/sarg/.htpasswd
+require valid-user
+Order allow,deny
+Allow from all
+</Directory>
+
 service apache2 restart
-
 sarg -x
-
 crontab -e
 0 0,2,4,6,8,10,12,14,16,18,20,22 * * * /usr/bin/sarg -x
-
-******** PASOS OPCIONALES ********
 htpasswd /etc/squid3/claves usuario
+
 nano /etc/squid3/squid.conf
 acl usuarioacl proxy_auth usuario
 http_access allow usarioacl
-********************************
 
-nano /etc/squid3/squid.conf
 squid3 -k reconfigure'
 exit 0
 fi
@@ -263,14 +272,14 @@ chattr -i /etc/ssh/sshd_config > /dev/null 2> /dev/null
 sshd_config
 service ssh restart 1> /dev/null 2> /dev/null
 
-echo -e '#auth_param basic program /usr/lib/squid3/basic_ncsa_auth /etc/squid3/claves
-http_port 8080
-visible_hostname DanielVPS
+echo -e '#auth_param basic program /usr/lib/squid/basic_ncsa_auth /etc/squid3/claves
+http_port 8080' > /etc/squid3/squid.conf
+echo -e "visible_hostname $dueno
 dns_nameservers 208.67.222.222 208.67.220.220
 
 acl url1 dstdomain -i 127.0.0.1
-acl url2 dstdomain -i localhost' > /etc/squid3/squid.conf
-echo -e "acl url3 dstdomain -i $ip" >> /etc/squid3/squid.conf
+acl url2 dstdomain -i localhost
+acl url3 dstdomain -i $ip" >> /etc/squid3/squid.conf
 echo -e 'acl payload dstdomain -i "/etc/payloads"
 
 http_access allow url1
@@ -302,38 +311,29 @@ echo 'AuthType Basic
 AuthName "Acceso Restringido!"
 AuthUserFile /var/lib/sarg/.htpasswd
 require valid-user' > /var/lib/sarg/.htaccess
+wget https://raw.githubusercontent.com/dragoondan/VPS/master/sarg.conf -O /etc/sarg/sarg.conf
+wget https://raw.githubusercontent.com/dragoondan/VPS/master/apache2.conf -O /etc/apache2/apache2.conf
 echo -e "\033[1;37mPara agregar nuevos host a SQUID proxy server ejecute el comando \033[1;32maddhost
 \033[1;37mPara eliminar host ejecute el comando \033[1;32mremoverhost\033[1;37m
 Los host estan almacenados en el achivo /etc/payloads\033[0m"
 echo -e "\033[01;31mConfiguracion automatica terminada! \033[0m"
 echo -e 'Recuerde hacer lo siguiente:
-nano /etc/sarg/sarg.conf
 htpasswd -c /var/lib/sarg/.htpasswd admin
-
-nano /etc/apache2/apache2.conf
-#Acceso a SARG
-<Directory /var/www/html/reportessarg>
-Options -Indexes +FollowSymLinks +Includes
-AllowOverride AuthConfig
-#Autenticacion de usuario
-AuthName "Reporte de Accesos a internet de la Red"
-AuthType Basic
-AuthUserFile /var/lib/sarg/.htpasswd
-require valid-user
-Order allow,deny
-Allow from all
-</Directory>
-
 service apache2 restart
+
 sarg -x
+
 crontab -e
 0 0,2,4,6,8,10,12,14,16,18,20,22 * * * /usr/bin/sarg -x
 
+******** PASOS OPCIONALES ********
 htpasswd /etc/squid3/claves usuario
 nano /etc/squid3/squid.conf
 acl usuarioacl proxy_auth usuario
 http_access allow usarioacl
+********************************
 
+nano /etc/squid3/squid.conf
 squid3 -k reconfigure'
 exit 0
 fi
