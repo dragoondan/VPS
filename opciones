@@ -225,12 +225,12 @@ echo 'AuthType Basic
 AuthName "Acceso Restringido!"
 AuthUserFile /var/lib/sarg/.htpasswd
 require valid-user' > /var/lib/sarg/.htaccess
+wget https://raw.githubusercontent.com/dragoondan/VPS/master/sarg.conf -O /etc/sarg/sarg.conf
 echo -e "\033[1;37mPara agregar nuevos host a SQUID proxy server ejecute el comando \033[1;32maddhost
 \033[1;37mPara eliminar host ejecute el comando \033[1;32mremoverhost\033[1;37m
 Los host estan almacenados en el achivo /etc/payloads\033[0m"
 echo -e "\033[01;31mConfiguracion automatica terminada! \033[0m"
 echo -e 'Recuerde hacer lo siguiente:
-nano /etc/sarg/sarg.conf
 htpasswd -c /var/lib/sarg/.htpasswd admin
 
 nano /etc/apache2/apache2.conf
