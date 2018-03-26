@@ -311,8 +311,8 @@ echo 'AuthType Basic
 AuthName "Acceso Restringido!"
 AuthUserFile /var/lib/sarg/.htpasswd
 require valid-user' > /var/lib/sarg/.htaccess
-wget https://raw.githubusercontent.com/dragoondan/VPS/master/sarg.conf -O /etc/sarg/sarg.conf
-wget https://raw.githubusercontent.com/dragoondan/VPS/master/apache2.conf -O /etc/apache2/apache2.conf
+wget https://raw.githubusercontent.com/dragoondan/VPS/master/sarg.conf -O /etc/sarg/sarg.conf 1> /dev/null 2> /dev/null
+wget https://raw.githubusercontent.com/dragoondan/VPS/master/apache2.conf -O /etc/apache2/apache2.conf 1> /dev/null 2> /dev/null
 echo -e "\033[1;37mPara agregar nuevos host a SQUID proxy server ejecute el comando \033[1;32maddhost
 \033[1;37mPara eliminar host ejecute el comando \033[1;32mremoverhost\033[1;37m
 Los host estan almacenados en el achivo /etc/payloads\033[0m"
