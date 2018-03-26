@@ -849,7 +849,7 @@ else
 banner="No hay un banner por ahora"
 fi
 echo -e "\033[1;32mBanner actual:\n\n\033[1;37m$banner\n\033[0m"
-echo "Escriba el banner que desea agregar (Presione ctrl + c para salir)"
+echo "Escriba el banner que desea agregar (Presione Ctrl + C para salir)"
 read -p ": " bannerssh
 echo "$bannerssh" > /etc/bannerssh
 service ssh restart 1> /dev/null 2>/dev/null
