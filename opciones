@@ -857,7 +857,7 @@ function detalhes_usuarios(){
 clear
 
 echo -e "\033[1;30m----------------------------------------------------------------------\033[0m"
-echo -e "\033[1;37m Usuario               Contrasena       Fecha de expiracion    Logins \033[0m"
+echo -e "\033[1;37m Usuario               Contrasena      Fecha de expiracion    Logins \033[0m"
 echo -e "\033[1;30m----------------------------------------------------------------------\033[0m"
 for users in `awk -F : '$3 > 900 { print $1 }' /etc/passwd |sort |grep -v "nobody" |grep -vi polkitd |grep -vi system-`
 do
@@ -882,7 +882,7 @@ then
 date="Nunca"
 fi
 detalhesdata=$(printf '%-18s' "$data")
-detalheslimit=$(printf '%-10s' "$limitecs")
+detalheslimit=$(printf '%-14s' "$limitecs")
 detalhes=$(printf ' %-21s' "$users")
 detalhespass=$(printf '%-18s' "$senha")
 echo -e "\033[1;33m$detalhes $detalhespass $detalhesdata $detalheslimit\033[0m"
